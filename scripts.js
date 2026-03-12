@@ -585,4 +585,43 @@ function renderComunicacionCharts(data) {
     });
 }
 
-window.onload = initDashboard;
+function initUIEventHandlers() {
+    const btnToggle = document.getElementById('btn-toggle-sidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 310);
+        });
+    }
+
+    const expandButtons = document.querySelectorAll('.btn-expand');
+    expandButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.glass-card');
+            card.classList.toggle('fullscreen-mode');
+            
+            const icon = this.querySelector('i');
+            if (card.classList.contains('fullscreen-mode')) {
+                icon.classList.remove('fa-expand');
+                icon.classList.add('fa-compress');
+            } else {
+                icon.classList.remove('fa-compress');
+                icon.classList.add('fa-expand');
+            }
+
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 310);
+        });
+    });
+}
+
+window.onload = function() {
+    initDashboard();
+    initUIEventHandlers();
+};

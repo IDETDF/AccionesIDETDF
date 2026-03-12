@@ -27,9 +27,14 @@
 
     <main class="main-content">
         <header id="hero" class="glass-header">
-            <div class="header-info">
-                <h2>PANEL DE GESTIÓN <span class="highlight">ESTRATÉGICA</span></h2>
-                <p>Monitoreo dinámico de indicadores de formación, asistencia técnica, comunicación y divulgación geoespacial.</p>
+            <div class="header-flex">
+                <button id="btn-toggle-sidebar" class="menu-toggle" title="Ocultar/Mostrar Menú">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="header-info">
+                    <h2>PANEL DE GESTIÓN <span class="highlight">ESTRATÉGICA</span></h2>
+                    <p>Monitoreo dinámico de indicadores de formación, asistencia técnica, comunicación y divulgación geoespacial.</p>
+                </div>
             </div>
             <div class="user-status"><span class="badge">Sincronizado</span></div>
         </header>
@@ -64,33 +69,51 @@
             
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Eficacia de Formación</h3>
+                    <div class="card-header-flex">
+                        <h3>Eficacia de Formación</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartEficacia"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Evolución de Actividades (Acumulado)</h3>
+                    <div class="card-header-flex">
+                        <h3>Evolución de Actividades (Acumulado)</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartCapacitaciones"></canvas>
                 </div>
             </div>
 
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Modalidad por Tipo de Actividad</h3>
+                    <div class="card-header-flex">
+                        <h3>Modalidad por Tipo de Actividad</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartModalidadTipo"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Inscriptos por Tipo de Actividad</h3>
+                    <div class="card-header-flex">
+                        <h3>Inscriptos por Tipo de Actividad</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartInscModalidad"></canvas>
                 </div>
             </div>
             
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Articulación Institucional</h3>
+                    <div class="card-header-flex">
+                        <h3>Articulación Institucional</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartArticulacion"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Fuentes de Financiamiento</h3>
+                    <div class="card-header-flex">
+                        <h3>Fuentes de Financiamiento</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartFinanciamiento"></canvas>
                 </div>
             </div>
@@ -124,22 +147,34 @@
 
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Evolución y Estado Por Año</h3>
+                    <div class="card-header-flex">
+                        <h3>Evolución y Estado Por Año</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartAsisTemporal"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Registro de Organismos Solicitantes</h3>
+                    <div class="card-header-flex">
+                        <h3>Registro de Organismos Solicitantes</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <div id="tableAsisOrgs" class="custom-table-container"></div>
                 </div>
             </div>
 
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Temas Principales Abordados</h3>
+                    <div class="card-header-flex">
+                        <h3>Temas Principales Abordados</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartAsisTemas"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Distribución por Modalidad</h3>
+                    <div class="card-header-flex">
+                        <h3>Distribución por Modalidad</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartAsisModalidad"></canvas>
                 </div>
             </div>
@@ -165,11 +200,17 @@
 
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Evolución de Adhesiones (Acumulado)</h3>
+                    <div class="card-header-flex">
+                        <h3>Evolución de Adhesiones (Acumulado)</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartAdhesionesEv"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Representantes por Organismo (Top 10)</h3>
+                    <div class="card-header-flex">
+                        <h3>Representantes por Organismo (Top 10)</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartAdhesionesReps"></canvas>
                 </div>
             </div>
@@ -207,22 +248,34 @@
 
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Impacto por Canal de Difusión</h3>
+                    <div class="card-header-flex">
+                        <h3>Impacto por Canal de Difusión</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartComCanales"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Frecuencia por Temática (Top 6)</h3>
+                    <div class="card-header-flex">
+                        <h3>Frecuencia por Temática (Top 6)</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartComTematicas"></canvas>
                 </div>
             </div>
 
             <div class="grid-layout">
                 <div class="glass-card">
-                    <h3>Concentración por Tipo de Acción</h3>
+                    <div class="card-header-flex">
+                        <h3>Concentración por Tipo de Acción</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartComTemporal"></canvas>
                 </div>
                 <div class="glass-card">
-                    <h3>Distribución Anual de Acciones</h3>
+                    <div class="card-header-flex">
+                        <h3>Distribución Anual de Acciones</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
                     <canvas id="chartComAnual"></canvas>
                 </div>
             </div>
