@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDETDF | Capacitaciones y Acciones</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="static/logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img src="static/logo.png" alt="Logo IDETDF">
+        </div>
+        <nav>
+            <a href="#hero" class="active"><i class="fa-solid fa-house"></i> Inicio</a>
+            <a href="#seccion-capacitaciones"><i class="fa-solid fa-graduation-cap"></i> Capacitaciones</a>
+            <a href="#seccion-asistencias"><i class="fa-solid fa-handshake-angle"></i> Asistencias</a>
+            <a href="#seccion-adhesiones"><i class="fa-solid fa-file-signature"></i> Adhesiones</a>
+            <a href="#seccion-comunicacion"><i class="fa-solid fa-bullhorn"></i> Comunicación</a>
+            <a href="#definiciones"><i class="fa-solid fa-book-open"></i> Definiciones</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header id="hero" class="glass-header">
+            <div class="header-info">
+                <h2>PANEL DE GESTIÓN <span class="highlight">ESTRATÉGICA</span></h2>
+                <p>Monitoreo dinámico de indicadores de formación, asistencia técnica, comunicación y divulgación geoespacial.</p>
+            </div>
+            <div class="user-status"><span class="badge">Sincronizado</span></div>
+        </header>
+
+        <section class="kpi-grid">
+            <div class="kpi-card accent-orange">
+                <i class="fa-solid fa-users"></i>
+                <div><span class="kpi-value" id="total-inscriptos">0</span><span class="kpi-label">inscriptos totales</span></div>
+            </div>
+            <div class="kpi-card accent-blue">
+                <i class="fa-solid fa-certificate"></i>
+                <div><span class="kpi-value" id="total-certificados">0</span><span class="kpi-label">certificados entregados</span></div>
+            </div>
+            <div class="kpi-card accent-dark">
+                <i class="fa-solid fa-clock"></i>
+                <div><span class="kpi-value" id="total-horas">0 horas</span><span class="kpi-label">de intercambio y formación</span></div>
+            </div>
+            <div class="kpi-card accent-blue">
+                <i class="fa-solid fa-percent"></i>
+                <div><span class="kpi-value" id="pct-cert">0%</span><span class="kpi-label">de inscriptos certificados</span></div>
+            </div>
+            <div class="kpi-card accent-orange">
+                <i class="fa-solid fa-book"></i>
+                <div><span class="kpi-value" id="total-act">0</span><span class="kpi-label">actividades registradas</span></div>
+            </div>
+        </section>
+
+        <section id="seccion-capacitaciones" class="data-block">
+            <div class="header-section">
+                <h3><i class="fa-solid fa-graduation-cap"></i> GESTIÓN DE CAPACITACIONES</h3>
+            </div>
+            
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Eficacia de Formación</h3>
+                    <canvas id="chartEficacia"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Evolución de Actividades (Acumulado)</h3>
+                    <canvas id="chartCapacitaciones"></canvas>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Modalidad por Tipo de Actividad</h3>
+                    <canvas id="chartModalidadTipo"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Inscriptos por Tipo de Actividad</h3>
+                    <canvas id="chartInscModalidad"></canvas>
+                </div>
+            </div>
+            
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Articulación Institucional</h3>
+                    <canvas id="chartArticulacion"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Fuentes de Financiamiento</h3>
+                    <canvas id="chartFinanciamiento"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <hr class="separator">
+
+        <section id="seccion-asistencias" class="data-block">
+            <div class="header-section">
+                <h3><i class="fa-solid fa-handshake-angle"></i> ASISTENCIA TÉCNICA</h3>
+            </div>
+
+            <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 30px;">
+                <div class="kpi-card accent-blue">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <div><span class="kpi-value" id="asis-total">0</span><span class="kpi-label">asistencias totales</span></div>
+                </div>
+                <div class="kpi-card accent-orange">
+                    <i class="fa-solid fa-building"></i>
+                    <div><span class="kpi-value" id="asis-orgs">0</span><span class="kpi-label">organismos solicitantes</span></div>
+                </div>
+                <div class="kpi-card accent-blue">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <div><span class="kpi-value" id="asis-temas">0</span><span class="kpi-label">temas abordados</span></div>
+                </div>
+                <div class="kpi-card accent-orange">
+                    <i class="fa-solid fa-laptop-house"></i>
+                    <div><span class="kpi-value" id="asis-mod" style="font-size: 1.4rem;">S/D</span><span class="kpi-label">modalidad principal</span></div>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Evolución y Estado Por Año</h3>
+                    <canvas id="chartAsisTemporal"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Registro de Organismos Solicitantes</h3>
+                    <div id="tableAsisOrgs" class="custom-table-container"></div>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Temas Principales Abordados</h3>
+                    <canvas id="chartAsisTemas"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Distribución por Modalidad</h3>
+                    <canvas id="chartAsisModalidad"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <hr class="separator">
+
+        <section id="seccion-adhesiones" class="data-block">
+            <div class="header-section">
+                <h3><i class="fa-solid fa-file-signature"></i> RED DE ADHESIONES</h3>
+            </div>
+            
+            <div class="kpi-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 30px;">
+                <div class="kpi-card accent-blue">
+                    <i class="fa fa-calendar-plus"></i>
+                    <div><span class="kpi-value" id="adh-total">0</span><span class="kpi-label">organismos adheridos</span></div>
+                </div>
+                <div class="kpi-card accent-orange">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <div><span class="kpi-value" id="adh-reps">0</span><span class="kpi-label">representantes registrados</span></div>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Evolución de Adhesiones (Acumulado)</h3>
+                    <canvas id="chartAdhesionesEv"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Representantes por Organismo (Top 10)</h3>
+                    <canvas id="chartAdhesionesReps"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <hr class="separator">
+
+        <section id="seccion-comunicacion" class="data-block">
+            <div class="header-section">
+                <h3><i class="fa-solid fa-bullhorn"></i> COMUNICACIÓN y DIVULGACIÓN</h3>
+            </div>
+
+            <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 30px;">
+                <div class="kpi-card accent-orange">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <div><span class="kpi-value" id="com-total">0</span><span class="kpi-label">acciones registradas</span></div>
+                </div>
+                <div class="kpi-card accent-blue">
+                    <i class="fa-solid fa-tower-broadcast"></i>
+                    <div><span class="kpi-value" id="com-canales">0</span><span class="kpi-label">canales utilizados</span></div>
+                </div>
+                <div class="kpi-card accent-dark">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <div><span class="kpi-value" id="com-tipos">0</span><span class="kpi-label">tipos de acción</span></div>
+                </div>
+                <div class="kpi-card accent-blue">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <div><span class="kpi-value" id="com-tematicas">0</span><span class="kpi-label">temáticas abordadas</span></div>
+                </div>
+                <div class="kpi-card accent-orange">
+                    <i class="fa-solid fa-handshake"></i>
+                    <div><span class="kpi-value" id="com-articulacion">0</span><span class="kpi-label">articulaciones con organismos</span></div>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Impacto por Canal de Difusión</h3>
+                    <canvas id="chartComCanales"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Frecuencia por Temática (Top 8)</h3>
+                    <canvas id="chartComTematicas"></canvas>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <h3>Concentración por Tipo de Acción</h3>
+                    <canvas id="chartComTemporal"></canvas>
+                </div>
+                <div class="glass-card">
+                    <h3>Distribución Anual de Acciones</h3>
+                    <canvas id="chartComAnual"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <hr class="separator">
+
+        <section id="definiciones" class="data-block">
+            <div class="header-section">
+                <h2><i class="fa-solid fa-book-open"></i> Diccionario</h2>
+            </div>
+            
+            <div class="glass-card" style="margin-bottom: 25px;">
+                <h3><i class='fa-solid fa-users-gear'></i> Roles y definiciones</h3>
+                <div id="roles-grid" class="definitions-table">
+                    </div>
+            </div>
+
+            <div class="glass-card">
+                <h3><i class='fa-solid fa-list-check'></i> Tipos de acciones</h3>
+                <div id="acciones-grid" class="definitions-table">
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
