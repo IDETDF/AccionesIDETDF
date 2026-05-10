@@ -126,7 +126,7 @@
                 <h3><i class="fa-solid fa-handshake-angle"></i> ASISTENCIA TÉCNICA</h3>
             </div>
 
-            <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 30px;">
+            <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 30px;">
                 <div class="kpi-card accent-blue">
                     <i class="fa-solid fa-clipboard-check"></i>
                     <div><span class="kpi-value" id="asis-total">0</span><span class="kpi-label">asistencias totales</span></div>
@@ -140,8 +140,12 @@
                     <div><span class="kpi-value" id="asis-temas">0</span><span class="kpi-label">temas abordados</span></div>
                 </div>
                 <div class="kpi-card accent-orange">
-                    <i class="fa-solid fa-laptop-house"></i>
-                    <div><span class="kpi-value" id="asis-mod" style="font-size: 1.4rem;">S/D</span><span class="kpi-label">modalidad principal</span></div>
+                    <i class="fa-solid fa-laptop"></i>
+                    <div><span class="kpi-value" id="asis-virtual">0</span><span class="kpi-label">asistencias virtuales</span></div>
+                </div>
+                <div class="kpi-card accent-dark">
+                    <i class="fa-solid fa-users-viewfinder"></i>
+                    <div><span class="kpi-value" id="asis-presencial">0</span><span class="kpi-label">asistencias presenciales</span></div>
                 </div>
             </div>
 
@@ -172,10 +176,10 @@
                 </div>
                 <div class="glass-card">
                     <div class="card-header-flex">
-                        <h3>Distribución por Modalidad</h3>
+                        <h3>Distribución por Tipo de Asistencia</h3>
                         <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
                     </div>
-                    <canvas id="chartAsisModalidad"></canvas>
+                    <canvas id="chartAsisTipo"></canvas>
                 </div>
             </div>
         </section>
@@ -212,6 +216,17 @@
                         <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
                     </div>
                     <canvas id="chartAdhesionesReps"></canvas>
+                </div>
+            </div>
+            <div class="full-width-layout" style="margin-top: 20px;">
+                <div class="glass-card">
+                    <div class="card-header-flex">
+                        <h3>Distribución de Organismos por Sector</h3>
+                        <button class="btn-expand" title="Pantalla completa"><i class="fa-solid fa-expand"></i></button>
+                    </div>
+                    <div style="position: relative; height: 350px;">
+                        <canvas id="chartAdhesionesSector"></canvas>
+                    </div>
                 </div>
             </div>
         </section>

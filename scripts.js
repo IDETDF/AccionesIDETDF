@@ -240,19 +240,28 @@ function renderAsistenciasChart(data) {
     let total = data.length;
     let orgsCount = {};
     let temasCount = {};
-    let modCount = {};
+    let tiposAsisCount = {}; // Nuevo contenedor
     let temporal = {};
+    
+    // Contadores para las nuevas KPIs
+    let countVirtual = 0;
+    let countPresencial = 0;
 
     data.forEach(r => {
         const org = r.organismo_solicitante || 'S/D';
         const tema = r.tema || 'General';
-        const mod = r.modalidad || 'S/D';
+        const mod = norm(r.modalidad || '');
+        const tipoAsis = r.tipo_asistencia_grafico || 'S/D'; // Nueva columna
         const año = r.año || 'S/D';
         const est = norm(r.estado || 'pendiente');
 
         orgsCount[org] = (orgsCount[org] || 0) + 1;
         temasCount[tema] = (temasCount[tema] || 0) + 1;
-        modCount[mod] = (modCount[mod] || 0) + 1;
+        tiposAsisCount[tipoAsis] = (tiposAsisCount[tipoAsis] || 0) + 1;
+
+        // Conteo de modalidades
+        if (mod.includes('virtual')) countVirtual++;
+        if (mod.includes('presencial')) countPresencial++;
 
         if(!temporal[año]) temporal[año] = { finalizada: 0, curso: 0, pendiente: 0, otros: 0 };
         
@@ -262,14 +271,14 @@ function renderAsistenciasChart(data) {
         else temporal[año].otros++;
     });
 
+    // Actualización de KPIs
     document.getElementById('asis-total').innerText = total;
     document.getElementById('asis-orgs').innerText = Object.keys(orgsCount).length;
     document.getElementById('asis-temas').innerText = Object.keys(temasCount).length;
+    document.getElementById('asis-virtual').innerText = countVirtual;
+    document.getElementById('asis-presencial').innerText = countPresencial;
 
-    let maxMod = 'S/D', maxVal = 0;
-    for(let m in modCount) { if(modCount[m] > maxVal) { maxVal = modCount[m]; maxMod = m; } }
-    document.getElementById('asis-mod').innerText = maxMod;
-
+    // 1. Evolución Temporal (Barras apiladas)
     const labelsAños = Object.keys(temporal).sort();
     if(window.chAsisTemp) window.chAsisTemp.destroy();
     window.chAsisTemp = new Chart(document.getElementById('chartAsisTemporal'), {
@@ -289,6 +298,7 @@ function renderAsistenciasChart(data) {
         }
     });
 
+    // 2. Tabla de Organismos
     const sortedOrgs = Object.entries(orgsCount).sort((a, b) => {
         if (b[1] !== a[1]) return b[1] - a[1];
         return a[0].localeCompare(b[0]);
@@ -302,6 +312,7 @@ function renderAsistenciasChart(data) {
     tableHTML += `</tbody></table>`;
     document.getElementById('tableAsisOrgs').innerHTML = tableHTML;
 
+    // 3. Temas Principales (Radar)
     const topTemas = Object.entries(temasCount).sort((a,b) => b[1]-a[1]).slice(0, 6);
     if(window.chAsisTemas) window.chAsisTemas.destroy();
     window.chAsisTemas = new Chart(document.getElementById('chartAsisTemas'), {
@@ -326,12 +337,16 @@ function renderAsistenciasChart(data) {
         }
     });
 
-    if(window.chAsisMod) window.chAsisMod.destroy();
-    window.chAsisMod = new Chart(document.getElementById('chartAsisModalidad'), {
+    // 4. NUEVO: Tipo de Asistencia (Área Polar)
+    if(window.chAsisTipo) window.chAsisTipo.destroy();
+    window.chAsisTipo = new Chart(document.getElementById('chartAsisTipo'), {
         type: 'polarArea',
         data: {
-            labels: Object.keys(modCount),
-            datasets: [{ data: Object.values(modCount), backgroundColor: EXTENDED_PALETTE.slice(-Object.keys(modCount).length) }]
+            labels: Object.keys(tiposAsisCount),
+            datasets: [{ 
+                data: Object.values(tiposAsisCount), 
+                backgroundColor: EXTENDED_PALETTE.slice(-Object.keys(tiposAsisCount).length) 
+            }]
         },
         options: { 
             responsive: true, maintainAspectRatio: true, aspectRatio: 2, 
@@ -392,15 +407,18 @@ function renderAdhesionesCharts(data) {
     let totalReps = 0;
     const añoCount = {};
     const orgReps = {};
+    const sectorCount = {};
 
     data.forEach(r => {
         const año = r.año_adhesion || 'S/D';
         const reps = Number(r.cant_representantes) || 0;
         const org = r.abreviatura || r.organismo || 'S/D';
-
+        const sector = r.sector || 'S/D';
+        
         totalReps += reps;
         añoCount[año] = (añoCount[año] || 0) + 1;
         orgReps[org] = (orgReps[org] || 0) + reps;
+        sectorCount[sector] = (sectorCount[sector] || 0) + 1;
     });
 
     document.getElementById('adh-total').innerText = totalAdhesiones;
@@ -443,6 +461,39 @@ function renderAdhesionesCharts(data) {
             indexAxis: 'y', responsive: true, maintainAspectRatio: true, aspectRatio: 2.2,
             scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } },
             plugins: { legend: { position: 'top' } }
+        }
+    });
+
+   if(window.chartAdhSector) window.chartAdhSector.destroy();
+    window.chartAdhSector = new Chart(document.getElementById('chartAdhesionesSector'), {
+        type: 'bar',
+        data: {
+            labels: Object.keys(sectorCount),
+            datasets: [{
+                label: 'Cantidad de Organismos',
+                data: Object.values(sectorCount),
+                backgroundColor: Object.keys(sectorCount).map((_, index) => EXTENDED_PALETTE[index % EXTENDED_PALETTE.length]),
+                borderRadius: 6,
+                maxBarThickness: 80 
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, 
+            plugins: {
+                legend: { display: false } 
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { color: PALETTE.dark, font: { weight: '600' } }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, color: PALETTE.dark },
+                    grid: { color: '#e0e6ed' }
+                }
+            }
         }
     });
 }
@@ -603,15 +654,63 @@ function initUIEventHandlers() {
     expandButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             const card = this.closest('.glass-card');
-            card.classList.toggle('fullscreen-mode');
+            const isFullscreen = card.classList.toggle('fullscreen-mode');
             
             const icon = this.querySelector('i');
-            if (card.classList.contains('fullscreen-mode')) {
+            if (isFullscreen) {
                 icon.classList.remove('fa-expand');
                 icon.classList.add('fa-compress');
             } else {
                 icon.classList.remove('fa-compress');
                 icon.classList.add('fa-expand');
+            }
+
+            // Acceder al canvas y a la instancia de Chart.js
+            const canvas = card.querySelector('canvas');
+            if (canvas) {
+                const chart = Chart.getChart(canvas);
+                if (chart) {
+                    // Chart.js asume 12px como tamaño base estándar. Duplicamos a 24px.
+                    const newSize = isFullscreen ? 24 : 12;
+
+                    // Actualizar fuente general
+                    if (!chart.options.font) chart.options.font = {};
+                    chart.options.font.size = newSize;
+
+                    // Actualizar fuente de las leyendas
+                    if (chart.options.plugins && chart.options.plugins.legend) {
+                        if (!chart.options.plugins.legend.labels.font) {
+                            chart.options.plugins.legend.labels.font = {};
+                        }
+                        chart.options.plugins.legend.labels.font.size = newSize;
+                    }
+
+                    // Actualizar fuente de los tooltips (etiquetas al hacer hover)
+                    if (chart.options.plugins && chart.options.plugins.tooltip) {
+                        if (!chart.options.plugins.tooltip.titleFont) chart.options.plugins.tooltip.titleFont = {};
+                        if (!chart.options.plugins.tooltip.bodyFont) chart.options.plugins.tooltip.bodyFont = {};
+                        chart.options.plugins.tooltip.titleFont.size = newSize + 2;
+                        chart.options.plugins.tooltip.bodyFont.size = newSize;
+                    }
+
+                    // Actualizar fuente de los ejes (X, Y) y gráficos radiales (Polar/Radar)
+                    if (chart.options.scales) {
+                        Object.values(chart.options.scales).forEach(scale => {
+                            if (scale.ticks) {
+                                if (!scale.ticks.font) scale.ticks.font = {};
+                                scale.ticks.font.size = newSize;
+                            }
+                            // Etiquetas específicas de gráficos tipo Radar
+                            if (scale.pointLabels) {
+                                if (!scale.pointLabels.font) scale.pointLabels.font = {};
+                                scale.pointLabels.font.size = newSize;
+                            }
+                        });
+                    }
+
+                    // Forzar el redibujado con la nueva configuración
+                    chart.update('none'); 
+                }
             }
 
             setTimeout(() => {
